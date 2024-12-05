@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  nestjs-cli:
+    container_name: nestjs-cli-dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./code:/app
+    ports:
+      - "3080:3080"
+    stdin_open: true
+    tty: true
