@@ -1,130 +1,191 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
+import React, { useState } from "react";
+import { Sidebar } from "./sidebar";
+import { ToolOptions } from "./toolOptions";
+import { useFabricCanvas } from "./useCanvas";
 import {
-  Github,
-  Linkedin,
-  Mail,
-  Server,
-  DockIcon,
-  FileCode2,
+  AlignCenter,
+  AlignEndVertical,
+  AlignLeft,
+  AlignRight,
+  AlignStartVertical,
+  // AlignBottom,
+  // AlignTop,
 } from "lucide-react";
 
-export default function Home() {
+import CamisaFrenteBranca, { CamisaPolo } from "./clotches/CamisaFrenteBranca";
+
+const Home: React.FC = () => {
+  const {
+    canvasRef,
+    expandedMenu,
+    positionImage,
+    toggleMenu,
+    addText,
+    addImage,
+    removeSelectedObject,
+    textProperties,
+    setTextProperties,
+  } = useFabricCanvas();
+
+  const [camisaColors, setCamisaColors] = useState<CamisaPolo>({
+    delineado: "#000",
+    mangas: "#fff",
+    mangaEsquerda: "#fff",
+    cls5Fill: "#fff",
+    gola: "#000",
+    golaFina: "#000",
+    botoes: "#000",
+    contornosBotoes: "#fff",
+    barraInferior: "#000",
+    bordaMangaDireita: "#000",
+    corpo: "#fff",
+    ranhuras: "#fff",
+    interior: "#fff",
+  });
+
+  const colorInputClasses = "w-full h-10 p-1 border border-gray-300 rounded-md";
+  const labelClasses = "block text-sm font-medium text-gray-700 mb-1";
+  const sectionClasses = "bg-white p-4 rounded-lg shadow-md";
+
+  const handleColorChange = (color: string, part: keyof CamisaPolo) => {
+    setCamisaColors((prevColors) => ({
+      ...prevColors,
+      [part]: color,
+    }));
+  };
+
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center p-4">
-      <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-white shadow-2xl rounded-xl overflow-hidden">
-          <div className="bg-gradient-to-r from-blue-500 to-purple-600 h-36 relative">
-            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
-              <div className="w-32 h-32 bg-white rounded-full border-4 border-white shadow-lg overflow-hidden">
-                <Image
-                  src="/images/1732977904540.jpeg"
-                  alt="Alexandre Souza dos Santos"
-                  width={128}
-                  height={128}
-                  className="w-full h-full object-cover"
-                  priority
-                />
-              </div>
-            </div>
+    <div className="flex h-screen" style={{ background: "grey" }}>
+      {/* Sidebar */}
+      <Sidebar expandedMenu={expandedMenu} toggleMenu={toggleMenu} />
+
+      {/* Tool Options */}
+      {expandedMenu && (
+        <ToolOptions
+          expandedMenu={expandedMenu}
+          addText={addText}
+          addImage={addImage}
+          positionImage={positionImage}
+          removeSelectedObject={removeSelectedObject}
+          textProperties={textProperties}
+          setTextProperties={setTextProperties}
+        />
+      )}
+
+      {/* Canvas Area */}
+      <div
+        className="flex h-screen w-screen justify-center items-center gap-4 "
+        style={{ background: "#fafafa" }}
+      >
+        <div
+          style={{
+            background: "#fff",
+            width: 800,
+            height: 800,
+            position: "relative",
+          }}
+        >
+          <div className="absolute top-0 left-0 right-0 bottom-0">
+            <CamisaFrenteBranca {...camisaColors} />
           </div>
-
-          <div className="pt-20 text-center">
-            <h1 className="text-2xl font-bold text-gray-800">
-              Alexandre Souza dos Santos
-            </h1>
-            <p className="text-gray-600 mt-2">Desenvolvedor Full Stack</p>
-
-            <div className="mt-6 px-6">
-              <div className="flex justify-center space-x-4 mb-6">
-                <Link
-                  href="mailto:alexandre.souza.office@gmail.com"
-                  className="text-gray-600 hover:text-blue-600 transition-colors"
-                >
-                  <Mail size={24} />
-                </Link>
-                <Link
-                  href="https://www.linkedin.com/in/eualexandre"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-blue-600 transition-colors"
-                >
-                  <Linkedin size={24} />
-                </Link>
-                <Link
-                  href="https://github.com/soualexandre"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-blue-600 transition-colors"
-                >
-                  <Github size={24} />
-                </Link>
-              </div>
-
-              <div className="bg-gray-100 rounded-lg p-4 text-center">
-                <p className="text-gray-700">
-                  Desenvolvedor apaixonado por tecnologia, criando soluções
-                  inovadoras e elegantes para desafios complexos.
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-6 py-4 border-t border-gray-200">
-              <Link
-                href="https://eualexandre.vercel.app/"
-                className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-full hover:opacity-90 transition-opacity"
-              >
-                Ver Projetos
-              </Link>
-            </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "flex-start",
+              marginTop: "6rem",
+              height: "100%",
+            }}
+          >
+            <canvas
+              ref={canvasRef}
+              className="group border-2 border-transparent hover:border-gray-300 hover:border-dashed"
+            ></canvas>
           </div>
         </div>
-
-        <div className="bg-white shadow-2xl rounded-xl p-6">
-          <h2 className="text-2xl font-bold mb-4 text-gray-800">
-            Template Next.js, Tailwind, Nest.js, Docker, Makefile.
-          </h2>
-
-          <div className="space-y-4">
-            <div className="flex items-center space-x-3">
-              <Server className="text-blue-500" />
-              <h3 className="font-semibold text-gray-700">Arquitetura</h3>
+        <div className="  bg-white p-6 rounded-xl shadow-2xl">
+          {/* Positioning Section */}
+          <section className={`${sectionClasses} mb-6`}>
+            <h2 className="text-lg font-semibold text-gray-800 mb-4">
+              Posicionamento da Objeto
+            </h2>
+            <div className="grid grid-cols-5 gap-2">
+              {[
+                {
+                  icon: AlignStartVertical,
+                  position: "top-left",
+                  label: "Top Left",
+                },
+                { icon: AlignRight, position: "top-right", label: "Top Right" },
+                { icon: AlignCenter, position: "center", label: "Center" },
+                {
+                  icon: AlignLeft,
+                  position: "bottom-left",
+                  label: "Bottom Left",
+                },
+                {
+                  icon: AlignEndVertical,
+                  position: "bottom-right",
+                  label: "Bottom Right",
+                },
+              ].map(({ icon: Icon, position, label }) => (
+                <button
+                  key={position}
+                  onClick={() => positionImage(position)}
+                  // className={`p-2 ${
+                  //   imagePosition === position ? "bg-blue-100" : "bg-gray-100"
+                  // } hover:bg-gray-200 rounded-full transition-colors duration-200`}
+                  aria-label={label}
+                >
+                  <Icon className="w-5 h-5 text-black" />
+                </button>
+              ))}
             </div>
-            <p className="text-gray-600">
-              Next.js 14 - Tailwind CSS - Suporte a Docker - Design Responsivo -
-              Fácil customização
-            </p>
+          </section>
 
-            <div className="flex items-center space-x-3">
-              <DockIcon className="text-blue-500" />
-              <h3 className="font-semibold text-gray-700">Containerização</h3>
+          {/* Color Customization Section */}
+          <section className={sectionClasses}>
+            <h2 className="text-lg font-semibold text-gray-800 mb-4">
+              Personalização de Cores
+            </h2>
+            <div className="grid grid-cols-3 gap-4">
+              {[
+                { id: "gola", label: "Gola" },
+                { id: "mangas", label: "Mangas" },
+                { id: "delineado", label: "Delineado" },
+                { id: "botoes", label: "Botões" },
+                { id: "barraInferior", label: "Barra Inferior" },
+                { id: "bordaMangaDireita", label: "Barra Manga" },
+                { id: "corpo", label: "Corpo" },
+                { id: "ranhuras", label: "Ranhuras" },
+              ].map(({ id, label }) => (
+                <div key={id} className="flex flex-col">
+                  <label htmlFor={id} className={labelClasses}>
+                    {label}
+                  </label>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="color"
+                      id={id}
+                      value={camisaColors[id]}
+                      onChange={(e) => handleColorChange(e.target.value, id)}
+                      className={colorInputClasses}
+                    />
+                    <div
+                      className="w-10 h-10 rounded-md border border-gray-300"
+                      // style={{ backgroundColor: camisaColors[id] }}
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
-            <p className="text-gray-600">
-              Dockerização completa com Dockerfile otimizado para build e
-              desenvolvimento, garantindo ambiente consistente e escalável.
-            </p>
-
-            <div className="flex items-center space-x-3">
-              <FileCode2 className="text-blue-500" />
-              <h3 className="font-semibold text-gray-700">Makefile</h3>
-            </div>
-            <p className="text-gray-600">
-              Makefile personalizado para automatizar tarefas.
-            </p>
-
-            <div className="mt-6">
-              <Link
-                href="https://github.com/soualexandre/template_inicial_projeto_next_and_nest"
-                className="bg-gradient-to-r from-green-500 to-teal-600 text-white px-6 py-2 rounded-full hover:opacity-90 transition-opacity"
-              >
-                Git do projeto
-              </Link>
-            </div>
-          </div>
+          </section>
         </div>
       </div>
-    </main>
+    </div>
   );
-}
+};
+
+export default Home;
