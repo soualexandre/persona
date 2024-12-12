@@ -10,11 +10,9 @@ import {
   AlignLeft,
   AlignRight,
   AlignStartVertical,
-  // AlignBottom,
-  // AlignTop,
 } from "lucide-react";
-
-import CamisaFrenteBranca, { CamisaPolo } from "./clotches/CamisaFrenteBranca";
+import { CamisaPolo } from "./clotches/CamisaFrenteBranca";
+import DynamicSvg from "./clotches/dynamicSvg";
 
 const Home: React.FC = () => {
   const {
@@ -31,23 +29,19 @@ const Home: React.FC = () => {
 
   const [camisaColors, setCamisaColors] = useState<CamisaPolo>({
     delineado: "#000",
-    mangas: "#fff",
+    mangas: "blue",
     mangaEsquerda: "#fff",
     cls5Fill: "#fff",
-    gola: "#000",
+    gola: "blue",
     golaFina: "#000",
     botoes: "#000",
     contornosBotoes: "#fff",
     barraInferior: "#000",
     bordaMangaDireita: "#000",
-    corpo: "#fff",
+    corpo: "blue",
     ranhuras: "#fff",
     interior: "#fff",
   });
-
-  const colorInputClasses = "w-full h-10 p-1 border border-gray-300 rounded-md";
-  const labelClasses = "block text-sm font-medium text-gray-700 mb-1";
-  const sectionClasses = "bg-white p-4 rounded-lg shadow-md";
 
   const handleColorChange = (color: string, part: keyof CamisaPolo) => {
     setCamisaColors((prevColors) => ({
@@ -55,6 +49,10 @@ const Home: React.FC = () => {
       [part]: color,
     }));
   };
+
+  const colorInputClasses = "w-full h-10 p-1 border border-gray-300 rounded-md";
+  const labelClasses = "block text-sm font-medium text-gray-700 mb-1";
+  const sectionClasses = "bg-white p-4 rounded-lg shadow-md";
 
   return (
     <div className="flex h-screen" style={{ background: "grey" }}>
@@ -76,7 +74,7 @@ const Home: React.FC = () => {
 
       {/* Canvas Area */}
       <div
-        className="flex h-screen w-screen justify-center items-center gap-4 "
+        className="flex h-screen w-screen justify-center items-center gap-4"
         style={{ background: "#fafafa" }}
       >
         <div
@@ -87,9 +85,12 @@ const Home: React.FC = () => {
             position: "relative",
           }}
         >
+          {/* SVG Display */}
           <div className="absolute top-0 left-0 right-0 bottom-0">
-            <CamisaFrenteBranca {...camisaColors} />
+            <DynamicSvg {...camisaColors} />
           </div>
+
+          {/* Canvas */}
           <div
             style={{
               display: "flex",
@@ -105,8 +106,10 @@ const Home: React.FC = () => {
             ></canvas>
           </div>
         </div>
-        <div className="  bg-white p-6 rounded-xl shadow-2xl">
-          {/* Positioning Section */}
+
+        {/* Sidebar Controls */}
+        <div className="bg-white p-6 rounded-xl shadow-2xl">
+          {/* Object Positioning */}
           <section className={`${sectionClasses} mb-6`}>
             <h2 className="text-lg font-semibold text-gray-800 mb-4">
               Posicionamento da Objeto
@@ -134,9 +137,6 @@ const Home: React.FC = () => {
                 <button
                   key={position}
                   onClick={() => positionImage(position)}
-                  // className={`p-2 ${
-                  //   imagePosition === position ? "bg-blue-100" : "bg-gray-100"
-                  // } hover:bg-gray-200 rounded-full transition-colors duration-200`}
                   aria-label={label}
                 >
                   <Icon className="w-5 h-5 text-black" />
@@ -145,37 +145,33 @@ const Home: React.FC = () => {
             </div>
           </section>
 
-          {/* Color Customization Section */}
+          {/* Color Customization */}
           <section className={sectionClasses}>
             <h2 className="text-lg font-semibold text-gray-800 mb-4">
               Personalização de Cores
             </h2>
             <div className="grid grid-cols-3 gap-4">
-              {[
-                { id: "gola", label: "Gola" },
-                { id: "mangas", label: "Mangas" },
-                { id: "delineado", label: "Delineado" },
-                { id: "botoes", label: "Botões" },
-                { id: "barraInferior", label: "Barra Inferior" },
-                { id: "bordaMangaDireita", label: "Barra Manga" },
-                { id: "corpo", label: "Corpo" },
-                { id: "ranhuras", label: "Ranhuras" },
-              ].map(({ id, label }) => (
-                <div key={id} className="flex flex-col">
-                  <label htmlFor={id} className={labelClasses}>
-                    {label}
+              {Object.entries(camisaColors).map(([key, value]) => (
+                <div key={key} className="flex flex-col">
+                  <label htmlFor={key} className={labelClasses}>
+                    {key}
                   </label>
                   <div className="flex items-center space-x-2">
                     <input
                       type="color"
-                      id={id}
-                      value={camisaColors[id]}
-                      onChange={(e) => handleColorChange(e.target.value, id)}
+                      id={key}
+                      value={value}
+                      onChange={(e) =>
+                        handleColorChange(
+                          e.target.value,
+                          key as keyof CamisaPolo
+                        )
+                      }
                       className={colorInputClasses}
                     />
                     <div
                       className="w-10 h-10 rounded-md border border-gray-300"
-                      // style={{ backgroundColor: camisaColors[id] }}
+                      style={{ backgroundColor: value }}
                     />
                   </div>
                 </div>
