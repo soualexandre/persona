@@ -1,4 +1,4 @@
-# 🚀 PErsonalização de Camisetas
+# 🚀 Personalização de Camisetas
 ## 📋 Descrição do Projeto
 
 Este projeto é uma aplicação full-stack moderna que utiliza:
