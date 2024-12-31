@@ -1,4 +1,4 @@
-export COMPOSE_COMMAND := docker-compose --project-name project-frontend
+export COMPOSE_COMMAND := docker compose --project-name project-frontend
 export COMPOSE_IGNORE_ORPHANS := true
 
 all: dev

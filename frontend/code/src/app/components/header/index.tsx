@@ -44,7 +44,7 @@
     return (
         <header className="bg-white shadow-sm fixed w-full top-0 z-50">
         <nav className="w-full mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-20">
+            <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/" className="flex-shrink-0">
                 <div className="flex items-center">
@@ -54,7 +54,7 @@
                 </div>
             </Link>
 
-            {/* Menu Principal */}
+            {/* Menu Principal
             <div className="hidden md:flex items-center space-x-8">
                 <Link href="/customize" className="text-gray-600 hover:text-blue-600 font-medium">
                 Personalizar
@@ -68,10 +68,10 @@
                 <Link href="/collections" className="text-gray-600 hover:text-blue-600 font-medium">
                 Coleções
                 </Link>
-            </div>
+            </div> */}
 
             {/* Ícones de Ação */}
-            <div className="hidden md:flex items-center space-x-6">
+            <div className="hidden md:flex items-center space-x-8">
                 <Tooltip text="Editor">
                 <Link href="/playground" className="text-gray-600 hover:text-gray-900">
                     <Palette className="h-6 w-6" />

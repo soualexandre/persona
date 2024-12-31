@@ -19,18 +19,18 @@ export const Sidebar: React.FC = () => {
     const { expandedMenu, toggleMenu } = useFabricCanvas();
     return (
         <div className="fixed top-16 left-0 h-[calc(100vh-4rem)] w-20 bg-gray-50 border-r shadow">
-            <div className="flex flex-col items-center py-4">
+            <div className="flex flex-col items-center">
                 {tools.map((tool) => (
                     <button
                         key={tool.name}
                         onClick={() => toggleMenu(tool.toolKey)}
-                        className={`p-3 rounded-lg w-20 transition-all ${expandedMenu === tool.toolKey
+                        className={`rounded-lg w-20 transition-all ${expandedMenu === tool.toolKey
                             ? "bg-blue-100 text-blue-600"
                             : "hover:bg-gray-100 text-gray-700"
                             }`}
                         title={tool.name}
                     >
-                        <div className="flex flex-col items-center py-4">
+                        <div className="flex flex-col items-center gap-2 py-3">
                             {tool.icon}
                             {tool.name}
                         </div>

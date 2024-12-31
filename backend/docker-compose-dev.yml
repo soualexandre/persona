@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   nestjs-cli:
-    container_name: nestjs-cli-dev
+    container_name: nestjs-cli
     build:
       context: .
       dockerfile: Dockerfile
@@ -12,3 +12,6 @@ services:
       - "3080:3080"
     stdin_open: true
     tty: true
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
