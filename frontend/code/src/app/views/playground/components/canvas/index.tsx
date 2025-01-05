@@ -1,22 +1,10 @@
 import { ArrowLeftToLine, ArrowRightToLine, Trash } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useFabricCanvas } from "../../useCanvas";
-import { TwitterPicker } from "react-color";
 import ShirtPartsList from "../controls";
-import useColorMapStore from "../../store/colorMapStore";
 
 const Canvas: React.FC = () => {
-  const { idColorMap, canvasRef, selectedPart } = useFabricCanvas();
-
-  
-  useEffect(() => {
-    console.log("IdColorMap atualizado:", idColorMap);
-  }, [idColorMap]);
-
-  useEffect(() => {
-    console.log("selectedPart atualizads:", selectedPart);
-  }, [selectedPart]);
-
+  const { canvasRef } = useFabricCanvas();
   return (
     <div className="flex flex-col justify-center items-center">
       <div>
@@ -35,12 +23,6 @@ const Canvas: React.FC = () => {
         >
           <ArrowRightToLine />
         </button>
-        {/* <button
-          onClick={handleUpdateColor}
-          className="text-gray-600 hover:text-black hover:bg-red-200"
-        >
-          Alterar Cor
-        </button> */}
         <ShirtPartsList />
       </div>
       <canvas

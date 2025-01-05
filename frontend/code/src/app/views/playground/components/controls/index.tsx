@@ -1,4 +1,3 @@
-
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
@@ -7,9 +6,9 @@ import { useFabricCanvas } from "../../useCanvas";
 import useColorMapStore from "../../store/colorMapStore";
 
 const SHIRT_PARTS = [
-  { id: "chest", name: "Peito", icon: "/barra.svg", group: "front" },
+  { id: "corpo", name: "Peito", icon: "/barra.svg", group: "front" },
   { id: "frontBody", name: "Corpo", icon: "/barra.svg", group: "front" },
-  { id: "collar", name: "Gola", icon: "/barra.svg", group: "front" },
+  { id: "gola", name: "Gola", icon: "/barra.svg", group: "front" },
   {
     id: "manga-esquerda",
     name: "Manga Esquerda",
@@ -39,11 +38,11 @@ interface ShirtPartsListProps {
 }
 
 const PartColorPicker: React.FC<{
-  selectedPart: any;
+  selectedPart: string;
   isExpanded: boolean;
-}> = ({ selectedPart }) => {
+}> = ({ selectedPart, isExpanded }) => {
 
-  const [selectedColor, ] = useState();
+  const [selectedColor,] = useState();
   const { updateColor } = useColorMapStore();
 
   const handleUpdateColor = (color: any) => {
@@ -51,26 +50,20 @@ const PartColorPicker: React.FC<{
   };
 
   return (
-    <div className="h-full flex items-center gap-3 p-2 bg-gray-50 rounded-b-lg border-t border-gray-200">
-      <TwitterPicker
-        color={selectedColor}
-        onChange={handleUpdateColor}
-      />
-    </div>
+    <>
+      {isExpanded && (
+        <div className="h-full flex items-center gap-3 p-2 bg-gray-50 rounded-b-lg border-t border-gray-200">
+          <TwitterPicker color={selectedColor} onChange={handleUpdateColor} />
+        </div>
+      )}
+    </>
   );
 };
 
 const ShirtPartsList: React.FC = ({ setNewColor }: any) => {
-
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
   const [expandedParts, setExpandedParts] = useState<Set<string>>(new Set());
-
-
   const { selectedPart, setSelectedPart } = useFabricCanvas();
-
-
-
-
   const handleGroupClick = (groupId: string) => {
     setSelectedGroup(groupId === selectedGroup ? null : groupId);
     setExpandedParts(new Set());
@@ -89,12 +82,8 @@ const ShirtPartsList: React.FC = ({ setNewColor }: any) => {
     });
   };
 
-
-
   return (
-    <div
-      className="fixed top-16 right-0 h-[calc(100vh-4rem)] bg-white rounded-xl shadow-sm flex flex-col  w-[250px] absolute right-0 "
-    >
+    <div className="fixed top-16 right-0 h-[calc(100vh-4rem)] bg-white rounded-xl shadow-sm flex flex-col w-[250px] absolute right-0 ">
       <div className="p-6 border-b border-gray-100">
         <h2 className="text-lg font-semibold text-gray-800">Personalizar</h2>
       </div>
@@ -136,14 +125,7 @@ const ShirtPartsList: React.FC = ({ setNewColor }: any) => {
                       }`}
                   >
                     <div className="flex items-center space-x-3">
-                      <div
-                        className="w-4 h-4 rounded-full border"
-                      // style={{
-                      //   backgroundColor:
-                      //     colors.find((c) => c.selectedPart === part.id)
-                      //       ?.color || "#ffffff",
-                      // }}
-                      />
+                      <div className="w-4 h-4 rounded-full border" />
                       <Image
                         src={part.icon}
                         alt={part.name}
@@ -165,7 +147,7 @@ const ShirtPartsList: React.FC = ({ setNewColor }: any) => {
                   </button>
 
                   <PartColorPicker
-                    selectedPart={selectedPart}
+                    selectedPart={part.id}
                     isExpanded={expandedParts.has(part.id)}
                   />
                 </div>
@@ -177,6 +159,5 @@ const ShirtPartsList: React.FC = ({ setNewColor }: any) => {
     </div>
   );
 };
-
 
 export default ShirtPartsList;

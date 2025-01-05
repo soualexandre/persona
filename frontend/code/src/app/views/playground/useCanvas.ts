@@ -148,7 +148,7 @@ export const useFabricCanvas = () => {
             console.log("id map color ", idColorMap )
             if ((child as any).id && idColorMap[(child as any).id]) {
               child.set({ fill: idColorMap[(child as any).id] });
-              child.setCoords();  // Atualiza as coordenadas do objeto
+              child.setCoords();
             }
           });
         } else if ((obj as any).id && idColorMap[(obj as any).id]) {

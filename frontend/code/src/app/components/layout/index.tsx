@@ -9,7 +9,7 @@ const Layout = ({ children }: React.PropsWithChildren) => {
     <div className="flex h-screen">
       <Header />
       <Sidebar />
-      <main className="ml-20 mt-16 flex-1 overflow-y-auto bg-gray-200 ">
+      <main className="ml-16 mt-16 flex-1 overflow-y-auto bg-gray-200 ">
         {children}
       </main>
     </div>
